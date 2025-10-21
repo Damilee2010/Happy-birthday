@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background-color: rgba(0, 0, 0, 0.85);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #00ff00;
+        }
+
+        .terminal-header {
+            background-color: #222;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #00ff00;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .button {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .close {
+            background-color: #ff5f56;
+        }
+
+        .minimize {
+            background-color: #ffbd2e;
+        }
+
+        .maximize {
+            background-color: #27ca3f;
+        }
+
+        .terminal-title {
+            margin-left: 15px;
+            color: #ccc;
+            font-size: 14px;
+            flex-grow: 1;
+        }
+
+        .terminal-body {
+            padding: 25px;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .prompt {
+            color: #00ff00;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .user {
+            color: #00ffff;
+        }
+
+        .path {
+            color: #ffff00;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #00ff00;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .message {
+            color: #00ff00;
+            line-height: 1.6;
+            margin-top: 20px;
+            white-space: pre-line;
+        }
+
+        .ascii-art {
+            color: #ff69b4;
+            font-family: monospace;
+            line-height: 1.2;
+            margin: 20px 0;
+            text-align: center;
+            animation: colorShift 5s infinite alternate;
+        }
+
+        @keyframes colorShift {
+            0% { color: #ff69b4; }
+            25% { color: #00ffff; }
+            50% { color: #ffff00; }
+            75% { color: #ffa500; }
+            100% { color: #ff69b4; }
+        }
+
+        .code-block {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 3px solid #00ff00;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "CODE SNIPPET";
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: #1a1a1a;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #00ff00;
+        }
+
+        .comment {
+            color: #888;
+        }
+
+        .function {
+            color: #ffa500;
+        }
+
+        .string {
+            color: #ff69b4;
+        }
+
+        .variable {
+            color: #00ffff;
+        }
+
+        .cake {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 50px;
+            animation: bounce 2s infinite, glow 3s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff69b4; }
+            to { text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
+        }
+
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1.5s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .birthday-button {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+        }
+
+        .birthday-button:hover {
+            background-color: #00cc00;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.9);
+        }
+
+        .tech-facts {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid #00ffff;
+        }
+
+        .tech-facts h3 {
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+
+        .tech-facts ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+
+        .tech-facts li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tech-facts li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: #00ff00;
+        }
+
+        .quote {
+            font-style: italic;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 105, 180, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid #ff69b4;
+            animation: fadeIn 2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .binary-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        .binary {
+            position: absolute;
+            color: #00ff00;
+            font-size: 14px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .progress-bar {
+            height: 5px;
+            background: #333;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #00ffff);
+            width: 0%;
+            animation: loading 3s ease-in-out forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .emoji-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .emoji {
+            font-size: 30px;
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="binary-rain" id="binary-rain"></div>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    
+    <div class="container">
+        <div class="terminal-header">
+            <div class="buttons">
+                <div class="button close"></div>
+                <div class="button minimize"></div>
+                <div class="button maximize"></div>
+            </div>
+            <div class="terminal-title">birthday_terminal.exe - Celebrating You!</div>
+        </div>
+        <div class="terminal-body">
+            <div class="prompt">
+                <span class="user">user@birthday</span>:<span class="path">~/celebrate</span>$ <span id="typed-text"></span><span class="cursor"></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div id="message" class="message hidden">
+                <div class="ascii-art">
+                    ╔══════════════════════════════╗<br>
+                    ║    AWESOME BIRTHDAY ALERT!   ║<br>
+                    ╚══════════════════════════════╝<br>
+                    <br>
+                    ┌───────────────────────┐<br>
+                    │    HAPPY BIRTHDAY!    │<br>
+                    │      TO OUR FAVORITE  │<br>
+                    │        TECH WIZARD!   │<br>
+                    └───────────────────────┘
+                </div>
+                
+                <div class="cake">🎂 🎉 🥳 🎈 🎁</div>
+                
+                <div class="code-block">
+                    <span class="comment">// Birthday Celebration Function</span><br>
+                    <span class="function">function</span> <span class="variable">celebrateBirthday</span>(<span class="string">person</span>) {<br>
+                    &nbsp;&nbsp;<span class="function">if</span> (person === <span class="string">"Awesome Developer"</span>) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="variable">happinessLevel</span> = <span class="string">"MAXIMUM"</span>;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="variable">cakeSlices</span> = <span class="string">"INFINITE"</span>;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="variable">codeQuality</span> *= <span class="string">2</span>;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="variable">bugCount</span> = <span class="string">0</span>;<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;<span class="function">return</span> <span class="string">"Best. Birthday. Ever!"</span>;<br>
+                    }
+                </div>
+                
+                <div class="tech-facts">
+                    <h3>🎯 BIRTHDAY TECH FACTS:</h3>
+                    <ul>
+                        <li>Your birthday is a natural infinite loop of joy!</li>
+                        <li>Age is just a number, and in binary, you're even younger!</li>
+                        <li>You're not getting older, you're just increasing your version number!</li>
+                        <li>Your wisdom is like well-optimized code - efficient and powerful!</li>
+                        <li>Birthdays are nature's way of telling us to upgrade our happiness drivers!</li>
+                    </ul>
+                </div>
+                
+                <div class="quote">
+                    "The only code that matters today is the code of celebration! 🚀"
+                </div>
+                
+                <div class="emoji-row">
+                    <div class="emoji">💻</div>
+                    <div class="emoji">🚀</div>
+                    <div class="emoji">🎮</div>
+                    <div class="emoji">📱</div>
+                    <div class="emoji">🔧</div>
+                    <div class="emoji">💾</div>
+                    <div class="emoji">🎯</div>
+                </div>
+                
+                <p>System.out.println("🎉 Happy Birthday to the coolest coder in the universe! 🎉");</p>
+                <p>May your day be as bug-free as your code and as joyful as a successful deployment!</p>
+                <p>Wishing you infinite loops of happiness, zero downtime, and maximum productivity in fun!</p>
+                <p>Remember: You're not just a year older, you're a year more experienced in the game of life!</p>
+                
+                <div class="button-container">
+                    <button class="birthday-button" onclick="startFireworks()">🚀 LAUNCH CELEBRATION! 🚀</button>
+                </div>
+            </div>
+        </div>
+        <div class="fireworks" id="fireworks"></div>
+    </div>
+
+    <script>
+        // Typing effect with multiple lines
+        const textLines = [
+            "Happy Birthday!",
+            " ",
+            "Initializing celebration protocols...",
+            "Loading awesome messages...",
+            "Preparing fireworks...",
+            "Almost ready..."
+        ];
+        
+        let currentLine = 0;
+        let currentChar = 0;
+        const typingSpeed = 80;
+        const lineDelay = 500;
+        
+        const typingEffect = () => {
+            if (currentLine < textLines.length) {
+                if (currentChar < textLines[currentLine].length) {
+                    document.getElementById("typed-text").textContent += textLines[currentLine].charAt(currentChar);
+                    currentChar++;
+                    setTimeout(typingEffect, typingSpeed);
+                } else {
+                    document.getElementById("typed-text").textContent += '\n';
+                    currentLine++;
+                    currentChar = 0;
+                    setTimeout(typingEffect, lineDelay);
+                }
+            } else {
+                setTimeout(() => {
+                    document.getElementById("message").classList.remove("hidden");
+                }, 1000);
+            }
+        };
+
+        // Start typing effect when page loads
+        window.onload = () => {
+            typingEffect();
+            createBinaryRain();
+            createFloatingHearts();
+        };
+
+        // Create binary rain effect
+        function createBinaryRain() {
+            const binaryRain = document.getElementById('binary-rain');
+            const binaryChars = ['0', '1'];
+            
+            for (let i = 0; i < 50; i++) {
+                const binary = document.createElement('div');
+                binary.classList.add('binary');
+                binary.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
+                binary.style.left = `${Math.random() * 100}%`;
+                binary.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                binary.style.animationDelay = `${Math.random() * 5}s`;
+                binaryRain.appendChild(binary);
+            }
+        }
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floating-hearts');
+            const hearts = ['💖', '💝', '🎂', '🎉', '🥳', '🎁', '🌟'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Fireworks function
+        function startFireworks() {
+            const fireworksContainer = document.getElementById("fireworks");
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff69b4'];
+            
+            for (let i = 0; i < 150; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                
+                // Random position
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                
+                // Random direction and distance
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 150;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                firework.style.left = `${startX}%`;
+                firework.style.top = `${startY}%`;
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                firework.style.setProperty('--tx', `${tx}px`);
+                firework.style.setProperty('--ty', `${ty}px`);
+                
+                fireworksContainer.appendChild(firework);
+                
+                // Remove firework after animation completes
+                setTimeout(() => {
+                    if (firework.parentNode) {
+                        firework.parentNode.removeChild(firework);
+                    }
+                }, 1500);
+            }
+            
+            // Add emoji animation
+            const emojis = document.querySelectorAll('.emoji');
+            emojis.forEach(emoji => {
+                emoji.style.animation = 'spin 1s infinite';
+            });
+            
+            setTimeout(() => {
+                emojis.forEach(emoji => {
+                    emoji.style.animation = 'spin 4s linear infinite';
+                });
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
