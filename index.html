@@ -16,22 +16,21 @@
             background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             color: #00ff00;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .container {
             width: 90%;
             max-width: 900px;
+            margin: 0 auto;
             background-color: rgba(0, 0, 0, 0.85);
             border-radius: 10px;
             box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
             overflow: hidden;
             position: relative;
             border: 1px solid #00ff00;
+            margin-bottom: 40px;
         }
 
         .terminal-header {
@@ -40,6 +39,9 @@
             display: flex;
             align-items: center;
             border-bottom: 1px solid #00ff00;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .buttons {
@@ -75,8 +77,9 @@
 
         .terminal-body {
             padding: 25px;
-            min-height: 500px;
             position: relative;
+            max-height: 70vh;
+            overflow-y: auto;
         }
 
         .prompt {
@@ -187,7 +190,7 @@
         }
 
         .fireworks {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
@@ -291,7 +294,7 @@
         }
 
         .binary-rain {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -315,7 +318,7 @@
         }
 
         .floating-hearts {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
@@ -373,6 +376,65 @@
             0% { transform: rotate(0deg) scale(1); }
             50% { transform: rotate(180deg) scale(1.2); }
             100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .additional-content {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            border: 1px solid #ff69b4;
+        }
+
+        .additional-content h2 {
+            color: #ff69b4;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .birthday-wishes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .wish {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #00ffff;
+        }
+
+        .wish h3 {
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        /* Scrollbar styling for webkit browsers */
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
         }
     </style>
 </head>
@@ -456,6 +518,36 @@
                 
                 <div class="button-container">
                     <button class="birthday-button" onclick="startFireworks()">🚀 LAUNCH CELEBRATION! 🚀</button>
+                </div>
+                
+                <div class="additional-content">
+                    <h2>🎊 More Birthday Wishes! 🎊</h2>
+                    <div class="birthday-wishes">
+                        <div class="wish">
+                            <h3>From the JavaScript Community:</h3>
+                            <p>console.log(`Happy ${age}th Birthday! May your life have no undefined values and always return true!`);</p>
+                        </div>
+                        <div class="wish">
+                            <h3>From Python Developers:</h3>
+                            <p>print(f"Happy Birthday! May your life be as elegant as Python and as powerful as C++!")</p>
+                        </div>
+                        <div class="wish">
+                            <h3>From the DevOps Team:</h3>
+                            <p>kubectl apply -f birthday.yaml<br>
+                            # Deployment successful!<br>
+                            # Pods: Happiness, Health, Success<br>
+                            # All systems go! 🚀</p>
+                        </div>
+                        <div class="wish">
+                            <h3>From the Design Team:</h3>
+                            <p>Your life is perfectly responsive, beautifully animated, and has excellent UX! Here's to another year of awesome design! 🎨</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer">
+                    <p>Made with ❤️ and code | Happy Birthday once again!</p>
+                    <p>Refresh the page to experience the magic again! ✨</p>
                 </div>
             </div>
         </div>
